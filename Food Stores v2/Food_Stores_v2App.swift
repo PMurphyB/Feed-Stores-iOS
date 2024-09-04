@@ -14,6 +14,6 @@ struct Food_Stores_v2App: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: FoodItem.self)
+        .modelContainer(for: Item.self)
     }
 }

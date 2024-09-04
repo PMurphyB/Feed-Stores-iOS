@@ -11,98 +11,193 @@ import SwiftData
 struct ContentView: View {
     
     
-    @Environment(\.modelContext) private var context
+    @Environment(\.modelContext) private var modelContext
+    @Query private var items:[Item]
     
-    @State private var showCreate = false
-    @State private var foodItemUpdate: FoodItem?
-    @Query(sort: \FoodItem.name) private var items: [FoodItem]
+    @State private var showCreateCategory = false
+    @State private var showCreateFood = false
+    @State private var foodEdit: Item?
     
     var body: some View {
+        
         NavigationStack {
-            List {
-                ForEach(items) { item in
-                    HStack {
-                        VStack {
-                            Text(item.name)
-                                .bold()
-                            Text(item.carbs + " Carbs")
-                                .font(.caption)
-                                .multilineTextAlignment(.leading)
-                        }
-                        
-                        Spacer()
-                        Spacer()
-                        Spacer()
-                        
-                        Button(action: {
-                            subtractFood(item)
-                        }, label: {
-                            Image(systemName: "minus")
-                        })
-                        .buttonStyle(BorderlessButtonStyle())
-                        
-                        Spacer()
-                        
-                        Text(String(item.numOf))
-                            .font(.headline)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            addFood(item)
-                        }, label: {
-                            Image(systemName: "plus")
-                        })
-                        .buttonStyle(BorderlessButtonStyle())
-                        
-                        
+            
+            if items.isEmpty {
+                
+                ContentUnavailableView("No Feed",
+                                       systemImage: "archivebox")
+                .sheet(item: $foodEdit,
+                       onDismiss: {
+                    foodEdit = nil
+                },
+                       content: {editItem in
+                    NavigationStack {
+                        UpdateFoodView(item: editItem)
+                            .interactiveDismissDisabled()
                     }
-                    .swipeActions {
-                    Button(role: .destructive) {
-                        withAnimation {
-                            context.delete(item)
-                        }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                            .symbolVariant(.fill)
-                    }
-                        
-                        Button {
-                            foodItemUpdate = item
-                        } label: {
-                            Label("Edit", systemImage: "pencil")
-                        }
-                        .tint(.orange)
-                }
-                }
-            }
-            .navigationTitle("My Feed")
-                .toolbar {
-                    ToolbarItem {
-                        Button(action: {
-                            showCreate.toggle()
-                        }, label: {
-                            Label("Add Food", systemImage: "plus")
-                        })
-                    }
-                }
-                .sheet(isPresented: $showCreate,
+                })
+                .sheet(isPresented: $showCreateCategory,
                        content: {
                     NavigationStack {
-                        FoodEditor()
+                        CreateCategoryView()
                     }
-                    .presentationDetents([.medium])
                 })
-                .sheet(item: $foodItemUpdate) {
-                    foodItemUpdate = nil
-                } content: { item in
-                    UpdateFoodEditor(item: item)
+                .sheet(isPresented: $showCreateFood,
+                       content: {
+                    NavigationStack {
+                        CreateFoodView()
+                    }
+                })
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("New Category") {
+                            showCreateCategory.toggle()
+                        }
+                    }
                 }
+                .safeAreaInset(edge: .bottom,
+                               alignment: .leading) {
+                    Button(action: {
+                        showCreateFood.toggle()
+                    }, label: {
+                        Label("New Feed", systemImage: "plus")
+                            .bold()
+                            .font(.title2)
+                            .padding(8)
+                            .background(.gray.opacity(0.1),
+                                        in: Capsule())
+                            .padding(.leading)
+                            .symbolVariant(.circle.fill)
+                    })
+                }
+                
+            } else {
+                List {
+                    
+                    ForEach(items) { item in
+                        
+                        HStack {
+                            VStack(alignment: .leading) {
+                                
+                                Text(item.name)
+                                    .font(.largeTitle)
+                                    .bold()
+                                
+                                Text(item.carbs + " Carbs")
+                                    .font(.callout)
+                                
+                                if let category = item.category {
+                                    Text(category.title)
+                                        .foregroundStyle(Color.blue)
+                                        .bold()
+                                        .padding(.horizontal)
+                                        .padding(.vertical, 8)
+                                        .background(Color.blue.opacity(0.1),
+                                                    in: RoundedRectangle(cornerRadius: 8,
+                                                                       style: .continuous))
+                                }
+                                
+                            }
+                            
+                            Spacer()
+                            
+                            Button {
+                                withAnimation {
+                                    subtractFood(item)
+                                }
+                            } label: {
+                                Image(systemName: "minus")
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            
+                            
+                            Text(String(item.numOf))
+                                .font(.headline)
+                            
+                            Button {
+                                withAnimation {
+                                    addFood(item)
+                                }
+                            } label: {
+                                Image(systemName: "plus")
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                        }
+                        .swipeActions {
+                            
+                            Button(role: .destructive) {
+                                
+                                withAnimation {
+                                    modelContext.delete(item)
+                                }
+                                
+                            } label: {
+                                Label("Delete", systemImage: "trash.fill")
+                            }
+                            
+                            Button {
+                                foodEdit = item
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
+                            }
+                            .tint(.orange)
+                        }
+                        
+                    }
+                }
+                .navigationTitle("My Feed")
+                .sheet(item: $foodEdit,
+                       onDismiss: {
+                    foodEdit = nil
+                },
+                       content: {editItem in
+                    NavigationStack {
+                        UpdateFoodView(item: editItem)
+                            .interactiveDismissDisabled()
+                    }
+                })
+                .sheet(isPresented: $showCreateCategory,
+                       content: {
+                    NavigationStack {
+                        CreateCategoryView()
+                    }
+                })
+                .sheet(isPresented: $showCreateFood,
+                       content: {
+                    NavigationStack {
+                        CreateFoodView()
+                    }
+                })
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("New Category") {
+                            showCreateCategory.toggle()
+                        }
+                    }
+                }
+                .safeAreaInset(edge: .bottom,
+                               alignment: .leading) {
+                    Button(action: {
+                        showCreateFood.toggle()
+                    }, label: {
+                        Label("New Feed", systemImage: "plus")
+                            .bold()
+                            .font(.title2)
+                            .padding(8)
+                            .background(.gray.opacity(0.1),
+                                        in: Capsule())
+                            .padding(.leading)
+                            .symbolVariant(.circle.fill)
+                    })
+                }
+            }
+            
+            
 
         }
     }
     
-    func subtractFood(_ item: FoodItem) {
+    func subtractFood(_ item: Item) {
         var x: Int = Int(item.numOf)!
         x -= 1
         if x <= 0 {
@@ -111,15 +206,21 @@ struct ContentView: View {
         item.numOf = String(x)
     }
     
-    func addFood(_ item: FoodItem) {
+    func addFood(_ item: Item) {
         var x: Int = Int(item.numOf)!
         x += 1
         item.numOf = String(x)
+    }
+    
+    private func delete(item: Item) {
+        withAnimation {
+            modelContext.delete(item)
+        }
     }
     
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: FoodItem.self)
+        .modelContainer(for: Item.self, inMemory: true)
 }

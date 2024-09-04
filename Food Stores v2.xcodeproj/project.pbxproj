@@ -11,9 +11,11 @@
 		06A736822B2A3F8100324412 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A736812B2A3F8100324412 /* ContentView.swift */; };
 		06A736842B2A3F8300324412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06A736832B2A3F8300324412 /* Assets.xcassets */; };
 		06A736872B2A3F8300324412 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06A736862B2A3F8300324412 /* Preview Assets.xcassets */; };
-		06A7368E2B2A3F9300324412 /* FoodItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A7368D2B2A3F9300324412 /* FoodItem.swift */; };
-		06A736902B2A417600324412 /* FoodEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A7368F2B2A417600324412 /* FoodEditor.swift */; };
-		06A736942B2B6D3800324412 /* UpdateFoodEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A736932B2B6D3800324412 /* UpdateFoodEditor.swift */; };
+		06A7368E2B2A3F9300324412 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A7368D2B2A3F9300324412 /* Item.swift */; };
+		06A736902B2A417600324412 /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A7368F2B2A417600324412 /* FoodView.swift */; };
+		06A736942B2B6D3800324412 /* UpdateFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A736932B2B6D3800324412 /* UpdateFoodView.swift */; };
+		06D5C08D2B475B6B00C044AA /* ModifyFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D5C08C2B475B6B00C044AA /* ModifyFoodView.swift */; };
+		06D5C08F2B4762EE00C044AA /* CreateCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D5C08E2B4762EE00C044AA /* CreateCategoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,9 +24,11 @@
 		06A736812B2A3F8100324412 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		06A736832B2A3F8300324412 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		06A736862B2A3F8300324412 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		06A7368D2B2A3F9300324412 /* FoodItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodItem.swift; sourceTree = "<group>"; };
-		06A7368F2B2A417600324412 /* FoodEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodEditor.swift; sourceTree = "<group>"; };
-		06A736932B2B6D3800324412 /* UpdateFoodEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFoodEditor.swift; sourceTree = "<group>"; };
+		06A7368D2B2A3F9300324412 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		06A7368F2B2A417600324412 /* FoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodView.swift; sourceTree = "<group>"; };
+		06A736932B2B6D3800324412 /* UpdateFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateFoodView.swift; sourceTree = "<group>"; };
+		06D5C08C2B475B6B00C044AA /* ModifyFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyFoodView.swift; sourceTree = "<group>"; };
+		06D5C08E2B4762EE00C044AA /* CreateCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,11 +63,13 @@
 			children = (
 				06A7367F2B2A3F8100324412 /* Food_Stores_v2App.swift */,
 				06A736812B2A3F8100324412 /* ContentView.swift */,
-				06A7368F2B2A417600324412 /* FoodEditor.swift */,
-				06A736932B2B6D3800324412 /* UpdateFoodEditor.swift */,
-				06A7368D2B2A3F9300324412 /* FoodItem.swift */,
+				06A7368F2B2A417600324412 /* FoodView.swift */,
 				06A736832B2A3F8300324412 /* Assets.xcassets */,
+				06A7368D2B2A3F9300324412 /* Item.swift */,
 				06A736852B2A3F8300324412 /* Preview Content */,
+				06D5C08C2B475B6B00C044AA /* ModifyFoodView.swift */,
+				06A736932B2B6D3800324412 /* UpdateFoodView.swift */,
+				06D5C08E2B4762EE00C044AA /* CreateCategoryView.swift */,
 			);
 			path = "Food Stores v2";
 			sourceTree = "<group>";
@@ -147,10 +153,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				06A736822B2A3F8100324412 /* ContentView.swift in Sources */,
-				06A7368E2B2A3F9300324412 /* FoodItem.swift in Sources */,
-				06A736902B2A417600324412 /* FoodEditor.swift in Sources */,
+				06A7368E2B2A3F9300324412 /* Item.swift in Sources */,
+				06D5C08F2B4762EE00C044AA /* CreateCategoryView.swift in Sources */,
+				06D5C08D2B475B6B00C044AA /* ModifyFoodView.swift in Sources */,
+				06A736902B2A417600324412 /* FoodView.swift in Sources */,
 				06A736802B2A3F8100324412 /* Food_Stores_v2App.swift in Sources */,
-				06A736942B2B6D3800324412 /* UpdateFoodEditor.swift in Sources */,
+				06A736942B2B6D3800324412 /* UpdateFoodView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +313,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -338,7 +346,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
