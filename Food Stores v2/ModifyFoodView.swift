@@ -87,6 +87,7 @@ struct CreateFoodView: View {
             }
         }
     }
+    
 }
 
 private extension CreateFoodView {

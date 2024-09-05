@@ -8,15 +8,57 @@
 import SwiftUI
 import SwiftData
 
+enum sortOption: String, CaseIterable {
+    case title
+    case carbs
+    case category
+}
+
+extension sortOption {
+    
+    var systemImage: String {
+        switch self {
+        case .title:
+            "textformat.size.larger"
+        case .carbs:
+            "takeoutbag.and.cup.and.straw.fill"
+        case .category:
+            "folder"
+        }
+    }
+}
+
 struct ContentView: View {
     
     
     @Environment(\.modelContext) private var modelContext
     @Query private var items:[Item]
     
+    @State private var searchQuery = ""
     @State private var showCreateCategory = false
     @State private var showCreateFood = false
     @State private var foodEdit: Item?
+    
+    @State private var selectedSortOption = sortOption.allCases.first!
+    
+    var filteredItems: [Item] {
+        if searchQuery.isEmpty {
+            return items.sort(on: selectedSortOption)
+        }
+        
+        let filteredItems = items.compactMap { item in
+            let titleContainsQuery = item.name.range(of: searchQuery,
+                                                      options: .caseInsensitive) != nil
+            
+            let categoryTitleContainsQuery = item.category?.title.range(of: searchQuery,
+                                                                  options: .caseInsensitive) != nil
+            
+            return (titleContainsQuery || categoryTitleContainsQuery) ? item : nil
+        }
+        
+        return filteredItems.sort(on: selectedSortOption)
+        
+    }
     
     var body: some View {
         
@@ -49,10 +91,31 @@ struct ContentView: View {
                     }
                 })
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button("New Category") {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        Button {
                             showCreateCategory.toggle()
+                        } label: {
+                            Image(systemName: "plus")
                         }
+                    }
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                    
+                        Menu {
+                            Picker("", selection: $selectedSortOption) {
+                                ForEach(sortOption.allCases,
+                                        id: \.rawValue) { option in
+                                    Label(option.rawValue.capitalized,
+                                          systemImage: option.systemImage)
+                                        .tag(option)
+                                }
+                            }
+                            .labelsHidden()
+
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .symbolVariant(.circle)
+                        }
+
                     }
                 }
                 .safeAreaInset(edge: .bottom,
@@ -74,7 +137,7 @@ struct ContentView: View {
             } else {
                 List {
                     
-                    ForEach(items) { item in
+                    ForEach(filteredItems) { item in
                         
                         HStack {
                             VStack(alignment: .leading) {
@@ -146,6 +209,14 @@ struct ContentView: View {
                     }
                 }
                 .navigationTitle("My Feed")
+                .animation(.easeIn, value: filteredItems)
+                .searchable(text: $searchQuery,
+                            prompt: "Search for a Feed Item or a Category")
+                .overlay {
+                    if filteredItems.isEmpty {
+                        ContentUnavailableView.search
+                    }
+                }
                 .sheet(item: $foodEdit,
                        onDismiss: {
                     foodEdit = nil
@@ -169,10 +240,31 @@ struct ContentView: View {
                     }
                 })
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button("New Category") {
+                    ToolbarItemGroup(placement: .primaryAction) {
+                        Button {
                             showCreateCategory.toggle()
+                        } label: {
+                            Image(systemName: "plus")
                         }
+                    }
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                    
+                        Menu {
+                            Picker("", selection: $selectedSortOption) {
+                                ForEach(sortOption.allCases,
+                                        id: \.rawValue) { option in
+                                    Label(option.rawValue.capitalized,
+                                          systemImage: option.systemImage)
+                                        .tag(option)
+                                }
+                            }
+                            .labelsHidden()
+
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .symbolVariant(.circle)
+                        }
+
                     }
                 }
                 .safeAreaInset(edge: .bottom,
@@ -218,6 +310,24 @@ struct ContentView: View {
         }
     }
     
+}
+
+private extension [Item] {
+    
+    func sort(on option: sortOption) -> [Item] {
+        switch option {
+        case .title:
+            self.sorted(by: { $0.name < $1.name })
+        case .carbs:
+            self.sorted(by: { $0.carbs < $1.carbs })
+        case .category:
+            self.sorted(by: {
+                guard let firstItemTitle = $0.category?.title,
+                      let secondItemTitle = $1.category?.title else { return false }
+                return firstItemTitle < secondItemTitle
+            })
+        }
+    }
 }
 
 #Preview {
