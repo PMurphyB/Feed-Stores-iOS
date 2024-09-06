@@ -18,21 +18,26 @@ struct CreateFoodView: View {
     @State var item = Item()
     @State var selectedCategory: Category?
     
+    @FocusState private var isInputActive: Bool
+    
     var body: some View {
         List {
             
             Section("Feed Title") {
                 TextField("Name", text: $item.name)
+                    .focused($isInputActive)
             }
             
             Section("Amount of Feed") {
                 TextField("How many?", text: $item.numOf)
                     .keyboardType(.numberPad)
+                    .focused($isInputActive)
             }
             
             Section("Amount of Carbs") {
                 TextField("How many carbs?", text: $item.carbs)
                     .keyboardType(.numberPad)
+                    .focused($isInputActive)
             }
             
             Section("Select A Category") {
@@ -84,6 +89,13 @@ struct CreateFoodView: View {
                     dismiss()
                 }
                 .disabled(item.name.isEmpty)
+            }
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                
+                Button("Done") {
+                    isInputActive = false
+                }
             }
         }
     }

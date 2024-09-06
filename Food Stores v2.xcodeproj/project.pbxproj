@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0620EB3E2C0E2BAB00F9095D /* ItemsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0620EB3D2C0E2BAB00F9095D /* ItemsContainer.swift */; };
 		06A736802B2A3F8100324412 /* Food_Stores_v2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A7367F2B2A3F8100324412 /* Food_Stores_v2App.swift */; };
 		06A736822B2A3F8100324412 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A736812B2A3F8100324412 /* ContentView.swift */; };
 		06A736842B2A3F8300324412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06A736832B2A3F8300324412 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0620EB3D2C0E2BAB00F9095D /* ItemsContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsContainer.swift; sourceTree = "<group>"; };
 		06A7367C2B2A3F8100324412 /* Food Stores v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Stores v2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06A7367F2B2A3F8100324412 /* Food_Stores_v2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food_Stores_v2App.swift; sourceTree = "<group>"; };
 		06A736812B2A3F8100324412 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			isa = PBXGroup;
 			children = (
 				06A7367F2B2A3F8100324412 /* Food_Stores_v2App.swift */,
+				0620EB3D2C0E2BAB00F9095D /* ItemsContainer.swift */,
 				06A736812B2A3F8100324412 /* ContentView.swift */,
 				06A7368F2B2A417600324412 /* FoodView.swift */,
 				06A736832B2A3F8300324412 /* Assets.xcassets */,
@@ -156,6 +159,7 @@
 				06A7368E2B2A3F9300324412 /* Item.swift in Sources */,
 				06D5C08F2B4762EE00C044AA /* CreateCategoryView.swift in Sources */,
 				06D5C08D2B475B6B00C044AA /* ModifyFoodView.swift in Sources */,
+				0620EB3E2C0E2BAB00F9095D /* ItemsContainer.swift in Sources */,
 				06A736902B2A417600324412 /* FoodView.swift in Sources */,
 				06A736802B2A3F8100324412 /* Food_Stores_v2App.swift in Sources */,
 				06A736942B2B6D3800324412 /* UpdateFoodView.swift in Sources */,

@@ -30,21 +30,26 @@ struct UpdateFoodView: View {
     
     @Bindable var item: Item
     
+    @FocusState private var isInputActive: Bool
+    
     var body: some View {
         List {
             
             Section("Feed Title") {
                 TextField("Name", text: $item.name)
+                    .focused($isInputActive)
             }
             
             Section("Amount of Feed") {
                 TextField("How many?", text: $item.numOf)
                     .keyboardType(.numberPad)
+                    .focused($isInputActive)
             }
             
             Section("Amount of Carbs") {
                 TextField("How many carbs?", text: $item.carbs)
                     .keyboardType(.numberPad)
+                    .focused($isInputActive)
             }
             
             Section("Select A Category") {
@@ -81,6 +86,15 @@ struct UpdateFoodView: View {
             }
         }
         .navigationTitle("Update Feed")
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                
+                Button("Done") {
+                    isInputActive = false
+                }
+            }
+        }
         .onAppear(perform: {
             selectedCategory = item.category
         })
