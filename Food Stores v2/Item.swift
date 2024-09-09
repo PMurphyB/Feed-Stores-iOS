@@ -15,6 +15,8 @@ final class Item {
     var carbs: String
     var numOf: String
     
+    var image: Data?
+    
     @Relationship(deleteRule: .nullify, inverse: \Category.items)
     var category: Category?
     

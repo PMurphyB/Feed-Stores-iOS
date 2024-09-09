@@ -139,53 +139,68 @@ struct ContentView: View {
                     
                     ForEach(filteredItems) { item in
                         
-                        HStack {
-                            VStack(alignment: .leading) {
-                                
-                                Text(item.name)
-                                    .font(.largeTitle)
-                                    .bold()
-                                
-                                Text(item.carbs + " Carbs")
-                                    .font(.callout)
-                                
-                                if let category = item.category {
-                                    Text(category.title)
-                                        .foregroundStyle(Color.blue)
+                        VStack {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    
+                                    Text(item.name)
+                                        .font(.largeTitle)
                                         .bold()
-                                        .padding(.horizontal)
-                                        .padding(.vertical, 8)
-                                        .background(Color.blue.opacity(0.1),
-                                                    in: RoundedRectangle(cornerRadius: 8,
-                                                                       style: .continuous))
+                                    
+                                    Text(item.carbs + " Carbs")
+                                        .font(.callout)
+                                    
+                                    if let category = item.category {
+                                        Text(category.title)
+                                            .foregroundStyle(Color.blue)
+                                            .bold()
+                                            .padding(.horizontal)
+                                            .padding(.vertical, 8)
+                                            .background(Color.blue.opacity(0.1),
+                                                        in: RoundedRectangle(cornerRadius: 8,
+                                                                           style: .continuous))
+                                    }
+                                    
                                 }
                                 
-                            }
-                            
-                            Spacer()
-                            
-                            Button {
-                                withAnimation {
-                                    subtractFood(item)
+                                Spacer()
+                                
+                                Button {
+                                    withAnimation {
+                                        subtractFood(item)
+                                    }
+                                } label: {
+                                    Image(systemName: "minus")
                                 }
-                            } label: {
-                                Image(systemName: "minus")
-                            }
-                            .buttonStyle(BorderlessButtonStyle())
-                            
-                            
-                            Text(String(item.numOf))
-                                .font(.headline)
-                            
-                            Button {
-                                withAnimation {
-                                    addFood(item)
+                                .buttonStyle(BorderlessButtonStyle())
+                                
+                                
+                                Text(String(item.numOf))
+                                    .font(.headline)
+                                
+                                Button {
+                                    withAnimation {
+                                        addFood(item)
+                                    }
+                                } label: {
+                                    Image(systemName: "plus")
                                 }
-                            } label: {
-                                Image(systemName: "plus")
+                                .buttonStyle(BorderlessButtonStyle())
                             }
-                            .buttonStyle(BorderlessButtonStyle())
+                            if let selectedPhotoData = item.image,
+                               let uiImage = UIImage(data: selectedPhotoData) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(maxWidth: .infinity, maxHeight: 120)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10,
+                                                                style: .continuous))
+                                    .contentShape(Rectangle())
+                                    .zIndex(-1)
+                            }
                         }
+                        
+                        
                         .swipeActions {
                             
                             Button(role: .destructive) {

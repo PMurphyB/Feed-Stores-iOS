@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import PhotosUI
 
 class OriginalFood {
     var name: String
@@ -27,6 +28,7 @@ struct UpdateFoodView: View {
     @Query private var categories: [Category]
     
     @State var selectedCategory: Category?
+    @State var selectedPhoto: PhotosPickerItem?
     
     @Bindable var item: Item
     
@@ -79,6 +81,37 @@ struct UpdateFoodView: View {
             }
             
             Section {
+                
+                if let imageData = item.image,
+                   let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: 300)
+                }
+                
+                PhotosPicker(selection: $selectedPhoto,
+                             matching: .images,
+                             photoLibrary: .shared()) {
+                    Label("Add Image", systemImage: "photo")
+                }
+                
+                if item.image != nil {
+                    
+                    Button(role: .destructive) {
+                        withAnimation {
+                            selectedPhoto = nil
+                            item.image = nil
+                        }
+                    } label: {
+                        Label("Remove Image", systemImage: "xmark")
+                            .foregroundStyle(.red)
+                    }
+                }
+                
+            }
+            
+            Section {
                 Button("Update") {
                     item.category = selectedCategory
                     dismiss()
@@ -98,6 +131,11 @@ struct UpdateFoodView: View {
         .onAppear(perform: {
             selectedCategory = item.category
         })
+        .task(id: selectedPhoto) {
+            if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
+                item.image = data
+            }
+        }
     }
 }
 
