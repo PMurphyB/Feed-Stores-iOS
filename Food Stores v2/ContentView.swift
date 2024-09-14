@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import SwiftUIImageViewer
 
 enum sortOption: String, CaseIterable {
     case title
@@ -38,6 +39,7 @@ struct ContentView: View {
     @State private var showCreateCategory = false
     @State private var showCreateFood = false
     @State private var foodEdit: Item?
+    @State private var isImageViewerPresented = false
     
     @State private var selectedSortOption = sortOption.allCases.first!
     
@@ -196,7 +198,25 @@ struct ContentView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10,
                                                                 style: .continuous))
                                     .contentShape(Rectangle())
-                                    .zIndex(-1)
+                                    .ZIndex(-1)
+                                    .onTapGesture {
+                                        isImageViewerPresented = true
+                                    }
+                                    .fullScreenCover(isPresented: $isImageViewerPresented) {
+                                        SwiftUIImageViewer(image: Image(uiImage: uiImage))
+                                            .overlay(alignment: .topTrailing) {
+                                                Button {
+                                                    isImageViewerPresented = false
+                                                } label: {
+                                                    Image(systemName: "xmark")
+                                                        .font(.headline)
+                                                }
+                                                .buttonStyle(.bordered)
+                                                .clipShape(Circle())
+                                                .tint(.blue)
+                                                .padding()
+                                            }
+                                    }
                             }
                         }
                         

@@ -15,6 +15,7 @@ final class Item {
     var carbs: String
     var numOf: String
     
+    @Attribute(.externalStorage)
     var image: Data?
     
     @Relationship(deleteRule: .nullify, inverse: \Category.items)
