@@ -3,7 +3,7 @@
 //  Food Stores v2
 //
 //  Created by Payton Murphy on 12/13/23.
-//  v1.6.1
+//  Current Version v1.6.1
 
 import SwiftUI
 import SwiftData
